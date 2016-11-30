@@ -60,7 +60,7 @@ def index():
 @app.route("/sales")
 def sales():
 
-    url = "https://www.google.com"
+    url = "https://sellercentral.amazon.com"
 
     # url = request.args.get("url", "")
     # width = int(request.args.get("w", 1000))
