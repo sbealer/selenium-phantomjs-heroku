@@ -26,41 +26,7 @@ class Driver(PhantomJS):
         super(Driver, self).__init__(*args, **kwargs)
         self._log = StderrLog()
 
-
 @app.route("/")
-def index():
-
-    url = "https://sellercentral.amazon.com"
-
-    # url = request.args.get("url", "")
-    # width = int(request.args.get("w", 1000))
-    # min_height = int(request.args.get("h", 400))
-    # wait_time = float(request.args.get("t", 20)) / 1000  # ms
-
-    # if not url:
-    #     return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
-    #            "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
-
-    driver = Driver()
-    # driver.set_window_position(0, 0)
-    # driver.set_window_size(width, min_height)
-    #
-    # driver.set_page_load_timeout(20)
-    # driver.implicitly_wait(20)
-    driver.get(url)
-
-    driver.set_window_size(500, 300)
-    time.sleep(1000)
-
-    sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
-
-    png = driver.get_screenshot_as_png()
-    driver.quit()
-
-    return Response(png, mimetype="image/png")
-
-
-@app.route("/sales")
 def index():
     url = request.args.get("url", "")
     width = int(request.args.get("w", 1000))
@@ -92,3 +58,38 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+@app.route("/sales")
+def sales():
+
+    url = "https://sellercentral.amazon.com"
+
+    # url = request.args.get("url", "")
+    # width = int(request.args.get("w", 1000))
+    # min_height = int(request.args.get("h", 400))
+    # wait_time = float(request.args.get("t", 20)) / 1000  # ms
+
+    # if not url:
+    #     return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
+    #            "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
+
+    driver = Driver()
+    # driver.set_window_position(0, 0)
+    # driver.set_window_size(width, min_height)
+    #
+    # driver.set_page_load_timeout(20)
+    # driver.implicitly_wait(20)
+    driver.get(url)
+
+    driver.set_window_size(500, 300)
+    time.sleep(1000)
+
+    sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
+
+    png = driver.get_screenshot_as_png()
+    driver.quit()
+
+    return Response(png, mimetype="image/png")
+
+
