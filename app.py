@@ -60,7 +60,7 @@ def index():
 @app.route("/sales")
 def sales():
 
-    url = "https://sellercentral.amazon.com"
+    url = "https://www.google.com"
 
     # url = request.args.get("url", "")
     # width = int(request.args.get("w", 1000))
@@ -80,7 +80,7 @@ def sales():
     driver.get(url)
 
     driver.set_window_size(500, 300)
-    time.sleep(1000)
+    time.sleep(1)
 
     #sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
 
