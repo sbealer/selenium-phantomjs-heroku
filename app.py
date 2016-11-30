@@ -56,9 +56,6 @@ def index():
     return Response(png, mimetype="image/png")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 @app.route("/sales")
 def sales():
@@ -91,5 +88,8 @@ def sales():
     driver.quit()
 
     return Response(png, mimetype="image/png")
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
