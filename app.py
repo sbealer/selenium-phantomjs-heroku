@@ -34,8 +34,8 @@ def index():
     wait_time = float(request.args.get("t", 20)) / 1000  # ms
 
     if not url:
-        return "Example: <a href='http://scrn.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
-               "http://scrn.herokuapp.com/?url=http://en.ig.ma/</a>"
+        return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
+               "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
 
     driver = Driver()
     driver.set_window_position(0, 0)
