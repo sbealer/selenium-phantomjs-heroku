@@ -75,14 +75,14 @@ def sales():
     # driver.set_window_position(0, 0)
     # driver.set_window_size(width, min_height)
     #
-    # driver.set_page_load_timeout(20)
-    # driver.implicitly_wait(20)
+    driver.set_page_load_timeout(10)
+    driver.implicitly_wait(10)
     driver.get(url)
 
     driver.set_window_size(500, 300)
     time.sleep(1000)
 
-    sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
+    #sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
 
     png = driver.get_screenshot_as_png()
     driver.quit()
