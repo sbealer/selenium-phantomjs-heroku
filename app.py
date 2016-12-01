@@ -99,11 +99,12 @@ def sales():
         print("Finding ap_email")
         username = browser.find_element_by_id("ap_email")
         password = browser.find_element_by_id("ap_password")
-        print("Found both fields. Attempting to send keys.")
+        print("Found both fields. Gathering credentials.")
         auth1 = os.environ["AZN_AUTH1"]
         auth2 = os.environ["AZN_AUTH2"]
         print("Got Credentials. Attempting to send keys.")
         username.send_keys(auth1)
+        print("username entered.")
         time.wait(1)
         password.send_keys(auth2)
         print("Logging in.")
