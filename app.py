@@ -115,7 +115,7 @@ def sales():
         print(browser.title)
         wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
 
-        summary_val = browser.find_element_by_id("summaryOPS").text
+        summary_val = int(browser.find_element_by_id("summaryOPS").text)
 
         if summary_val == 0:
             for retry in xrange(1, 5):
