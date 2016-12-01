@@ -79,7 +79,8 @@ def sales():
         summary_val = int(browser.find_element_by_id("summaryOPS").text)
         print("Value was: {n}".format(n=summary_val))
         if summary_val == 0:
-            for retry in xrange(1, 5):
+            print("In loop")
+            for retry in range(1, 5):
                 if summary_val != 0:
                     break
                 time.sleep(2)
