@@ -106,8 +106,9 @@ def sales():
         print(auth1)
         username.send_keys(auth1)
         print("username entered.")
-        time.wait(1)
+        #time.wait(1)
         password.send_keys(auth2)
+        print("password entered.")
         print("Logging in.")
         browser.find_element_by_id("signInSubmit").submit()
         print("Logged in.")
@@ -129,7 +130,7 @@ def sales():
         #return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        return Response(browser.page_source)
+        return Response("Error occurred! <br/> " + browser.page_source)
         # png = browser.get_screenshot_as_png()
         # return Response(png, mimetype="image/png")
 
