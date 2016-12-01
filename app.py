@@ -103,6 +103,7 @@ def sales():
         auth1 = os.environ["AZN_AUTH1"]
         auth2 = os.environ["AZN_AUTH2"]
         print("Got Credentials. Attempting to send keys.")
+        print(auth1)
         username.send_keys(auth1)
         print("username entered.")
         time.wait(1)
@@ -111,7 +112,7 @@ def sales():
         browser.find_element_by_id("signInSubmit").submit()
         print("Logged in.")
         png = browser.get_screenshot_as_png()
-        return Response(png, mimetype="image/png")
+        # return Response(png, mimetype="image/png")
         print("Trying to navigate to report url.")
         browser.get(report_url)
         print("Supposedly navigated...")
