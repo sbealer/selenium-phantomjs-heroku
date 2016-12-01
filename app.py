@@ -85,7 +85,7 @@ def sales():
         #             break
         #         time.sleep(2)
         #         summary_val = int(browser.find_element_by_id("summaryOPS").text)
-
+        
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
