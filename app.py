@@ -15,51 +15,11 @@ from selenium.common.exceptions import TimeoutException
 
 app = Flask(__name__)
 
-
-# class StderrLog(object):
-#     def close(self):
-#         pass
-#
-#     def __getattr__(self, name):
-#         return getattr(sys.stderr, name)
-#
-#
-# class Driver(PhantomJS):
-#     def __init__(self, *args, **kwargs):
-#         super(Driver, self).__init__(*args, **kwargs)
-#         self._log = StderrLog()
-
-# @app.route("/old")
-# def index():
-#     url = request.args.get("url", "")
-#     width = int(request.args.get("w", 1000))
-#     min_height = int(request.args.get("h", 400))
-#     wait_time = float(request.args.get("t", 20)) / 1000  # ms
-#
-#     if not url:
-#         return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
-#                "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
-#
-#     driver = Driver()
-#     driver.set_window_position(0, 0)
-#     driver.set_window_size(width, min_height)
-#
-#     driver.set_page_load_timeout(20)
-#     driver.implicitly_wait(20)
-#     driver.get(url)
-#
-#     driver.set_window_size(width, min_height)
-#     time.sleep(wait_time)
-#
-#     sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
-#
-#     png = driver.get_screenshot_as_png()
-#     driver.quit()
-#
-#     return Response(png, mimetype="image/png")
-
-
 @app.route("/")
+def default():
+    return Response("Nothing to see here.")
+
+@app.route("/sales", methods=['POST'])
 def sales():
 
     dcap = dict(DesiredCapabilities.PHANTOMJS)
@@ -127,6 +87,12 @@ def sales():
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
+
+        summary_val = {"color": "green",
+            "message": "Current Sales: {n}".format(n=summary_val),
+            "notify": "false",
+            "message_format": "text"}
+
         return Response(summary_val)
 
     except TimeoutException as te:
@@ -136,7 +102,10 @@ def sales():
         return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        return Response("Error occurred! <br/> " + browser.page_source)
+        return Response({"color": "red",
+            "message": "Crap. An error occurred.",
+            "notify": "false",
+            "message_format": "text"})
         # png = browser.get_screenshot_as_png()
         # return Response(png, mimetype="image/png")
 
