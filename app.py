@@ -84,14 +84,9 @@ def sales():
     wait = ui.WebDriverWait(browser, 20)
 
     try:
-        # browser.get(test_url)
-        # exit()
-
 
         browser.get(login_url)
-        time.sleep(2)
-
-        print(browser.title)
+        #time.sleep(2)
 
         wait.until(lambda browser_find: browser.find_element_by_id("signInSubmit"))
         print("Found login page.")
@@ -106,8 +101,8 @@ def sales():
         print(auth1)
         username.send_keys(auth1)
         print("username entered.")
-        #time.wait(1)
         password.send_keys(auth2)
+        time.sleep(1)
         print("password entered.")
         print("Logging in.")
         browser.find_element_by_id("signInSubmit").submit()
@@ -122,13 +117,23 @@ def sales():
 
         summary_val = browser.find_element_by_id("summaryOPS").text
 
+        if summary_val == 0:
+            for retry in xrange(1, 5):
+                if summary_val != 0:
+                    break
+                time.sleep(2)
+                summary_val = browser.find_element_by_id("summaryOPS").text
+
+        if summary_val == 0:
+            raise Exception("Could not get sales figures in time or sales were $0")
+
         return Response(summary_val)
 
     except TimeoutException as te:
-        png = browser.get_screenshot_as_png()
-        return Response(png, mimetype="image/png")
+        # png = browser.get_screenshot_as_png()
+        # return Response(png, mimetype="image/png")
 
-        #return Response("Couldn't find desired value in specified time limit.")
+        return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
         return Response("Error occurred! <br/> " + browser.page_source)
