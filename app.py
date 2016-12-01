@@ -92,7 +92,7 @@ def sales():
 
         resp["message"] = summary_val
         print("Trying to return message.")
-        return Response(json.dumps(summary_val))
+        return Response(json.dumps(resp))
 
     except TimeoutException as te:
         # png = browser.get_screenshot_as_png()
@@ -101,6 +101,7 @@ def sales():
         return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
+        print(gen_err.message)
         return Response(json.dumps({"color": "red",
             "message": "Crap. An error occurred. ",
             "notify": "false",
