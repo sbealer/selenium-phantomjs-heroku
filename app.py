@@ -68,7 +68,7 @@ def sales():
         print("Logging in.")
         browser.find_element_by_id("signInSubmit").submit()
         print("Logged in.")
-        png = browser.get_screenshot_as_png()
+        #png = browser.get_screenshot_as_png()
         # return Response(png, mimetype="image/png")
         print("Trying to navigate to report url.")
         browser.get(report_url)
@@ -85,7 +85,7 @@ def sales():
         #             break
         #         time.sleep(2)
         #         summary_val = int(browser.find_element_by_id("summaryOPS").text)
-        
+
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
