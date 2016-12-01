@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function, unicode_literals
+#from __future__ import absolute_import, division, print_function, unicode_literals
 
 import sys
 import time
@@ -9,85 +9,133 @@ import os
 from flask import Flask, Response, request
 
 from selenium.webdriver import PhantomJS
+from selenium.webdriver import DesiredCapabilities
+import selenium.webdriver.support.ui as ui
+from selenium.common.exceptions import TimeoutException
 
 app = Flask(__name__)
 
 
-class StderrLog(object):
-    def close(self):
-        pass
+# class StderrLog(object):
+#     def close(self):
+#         pass
+#
+#     def __getattr__(self, name):
+#         return getattr(sys.stderr, name)
+#
+#
+# class Driver(PhantomJS):
+#     def __init__(self, *args, **kwargs):
+#         super(Driver, self).__init__(*args, **kwargs)
+#         self._log = StderrLog()
 
-    def __getattr__(self, name):
-        return getattr(sys.stderr, name)
+# @app.route("/old")
+# def index():
+#     url = request.args.get("url", "")
+#     width = int(request.args.get("w", 1000))
+#     min_height = int(request.args.get("h", 400))
+#     wait_time = float(request.args.get("t", 20)) / 1000  # ms
+#
+#     if not url:
+#         return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
+#                "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
+#
+#     driver = Driver()
+#     driver.set_window_position(0, 0)
+#     driver.set_window_size(width, min_height)
+#
+#     driver.set_page_load_timeout(20)
+#     driver.implicitly_wait(20)
+#     driver.get(url)
+#
+#     driver.set_window_size(width, min_height)
+#     time.sleep(wait_time)
+#
+#     sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
+#
+#     png = driver.get_screenshot_as_png()
+#     driver.quit()
+#
+#     return Response(png, mimetype="image/png")
 
-
-class Driver(PhantomJS):
-    def __init__(self, *args, **kwargs):
-        super(Driver, self).__init__(*args, **kwargs)
-        self._log = StderrLog()
 
 @app.route("/")
-def index():
-    url = request.args.get("url", "")
-    width = int(request.args.get("w", 1000))
-    min_height = int(request.args.get("h", 400))
-    wait_time = float(request.args.get("t", 20)) / 1000  # ms
-
-    if not url:
-        return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
-               "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
-
-    driver = Driver()
-    driver.set_window_position(0, 0)
-    driver.set_window_size(width, min_height)
-
-    driver.set_page_load_timeout(20)
-    driver.implicitly_wait(20)
-    driver.get(url)
-
-    driver.set_window_size(width, min_height)
-    time.sleep(wait_time)
-
-    sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
-
-    png = driver.get_screenshot_as_png()
-    driver.quit()
-
-    return Response(png, mimetype="image/png")
-
-
-
-@app.route("/sales")
 def sales():
 
-    url = "https://sellercentral.amazon.com"
+    dcap = dict(DesiredCapabilities.PHANTOMJS)
+    dcap["phantomjs.page.settings.userAgent"] = (
+    "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
 
-    # url = request.args.get("url", "")
-    # width = int(request.args.get("w", 1000))
-    # min_height = int(request.args.get("h", 400))
-    # wait_time = float(request.args.get("t", 20)) / 1000  # ms
+    test_url = "http://requestb.in/18h1dbl1"
+    login_url = "https://sellercentral.amazon.com/gp/homepage.html"
+    report_url = "https://sellercentral.amazon.com/gp/site-metrics/report.html#&reportID=eD0RCS"
 
-    # if not url:
-    #     return "Example: <a href='http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/&w=1200'>" \
-    #            "http://selenium-phantomjs-test.herokuapp.com/?url=http://en.ig.ma/</a>"
+    if os.name == 'nt':
+        phantomjs_path = "C:\Python27\phantomjs.exe"
+        browser = PhantomJS(executable_path=phantomjs_path, desired_capabilities=dcap)
+        print("Browser started.")
 
-    driver = Driver()
-    # driver.set_window_position(0, 0)
-    # driver.set_window_size(width, min_height)
+    else:
+        browser = PhantomJS(desired_capabilities=dcap)
+
+    #browser.set_page_load_timeout(10)
+    #browser.implicitly_wait(10)
+    #wait = ui.WebDriverWait(browser, 20)
+
+    try:
+        # browser.get(test_url)
+        # exit()
+
+
+        browser.get(login_url)
+        time.sleep(2)
+
+        print(browser.title)
+
+        #wait.until(lambda browser_find: browser.find_element_by_id("signInSubmit"))
+        print("Found login page.")
+        #wait.until(lambda browser_find: browser.find_element_by_id("ap_email"))
+        username = browser.find_element_by_id("ap_email")
+        password = browser.find_element_by_id("ap_password")
+        auth1 = os.environ["AZN_AUTH1"]
+        auth2 = os.environ["AZN_AUTH2"]
+        print(auth1)
+        print(auth2)
+        username.send_keys(auth1)
+        time.wait(1)
+        password.send_keys(auth2)
+        print("Logging in.")
+        browser.find_element_by_id("signInSubmit").submit()
+        print("Logged in.")
+        png = browser.get_screenshot_as_png()
+        return Response(png, mimetype="image/png")
+        print("Trying to navigate to report url.")
+        browser.get(report_url)
+        print("Supposedly navigated...")
+        print(browser.title)
+        wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
+
+        summary_val = browser.find_element_by_id("summaryOPS").text
+
+        return Response(summary_val)
+
+    except TimeoutException as te:
+        png = browser.get_screenshot_as_png()
+        return Response(png, mimetype="image/png")
+        #return Response("Couldn't find desired value in specified time limit.")
+
+    # except Exception as gen_err:
+    #     return Response("An unhandled exception occurred. Message was: {err}".format(err=gen_err.message))
+
+    finally:
+        browser.quit()
+
+    # png = browser.get_screenshot_as_png()
+    # browser.quit()
     #
-    driver.set_page_load_timeout(10)
-    driver.implicitly_wait(10)
-    driver.get(url)
+    # return Response(png, mimetype="image/png")
 
-    driver.set_window_size(500, 300)
-    time.sleep(1)
 
-    #sys.stderr.write(driver.execute_script("return document.readyState") + "\n")
-
-    png = driver.get_screenshot_as_png()
-    driver.quit()
-
-    return Response(png, mimetype="image/png")
 
 if __name__ == "__main__":
     app.run(debug=True)
