@@ -88,11 +88,11 @@ def sales():
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
-        resp = {"color": "green","notify": "false","message_format": "text"}
-
-        resp["message"] = summary_val
+        # resp = {"color": "green","notify": "false","message_format": "text"}
+        #
+        # resp["message"] = summary_val
         print("Trying to return message.")
-        return Response(json.dumps(resp))
+        return Response(summary_val)
 
     except TimeoutException as te:
         # png = browser.get_screenshot_as_png()
