@@ -5,6 +5,7 @@
 import sys
 import time
 import os
+import json
 
 from flask import Flask, Response, request
 
@@ -82,16 +83,16 @@ def sales():
                 if summary_val != 0:
                     break
                 time.sleep(2)
-                summary_val = browser.find_element_by_id("summaryOPS").text
+                summary_val = int(browser.find_element_by_id("summaryOPS").text)
 
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
 
-        summary_val = {"color": "green",
+        summary_val = str({"color": "green",
             "message": "Current Sales: {n}".format(n=summary_val),
             "notify": "false",
-            "message_format": "text"}
+            "message_format": "text"})
 
         return Response(summary_val)
 
@@ -102,10 +103,10 @@ def sales():
         return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        return Response({"color": "red",
+        return Response(str({"color": "red",
             "message": "Crap. An error occurred.",
             "notify": "false",
-            "message_format": "text"})
+            "message_format": "text"}))
         # png = browser.get_screenshot_as_png()
         # return Response(png, mimetype="image/png")
 
