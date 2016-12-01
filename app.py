@@ -77,10 +77,11 @@ def sales():
 
     else:
         browser = PhantomJS(desired_capabilities=dcap)
+        print("Created")
 
     #browser.set_page_load_timeout(10)
     #browser.implicitly_wait(10)
-    #wait = ui.WebDriverWait(browser, 20)
+    wait = ui.WebDriverWait(browser, 20)
 
     try:
         # browser.get(test_url)
@@ -92,15 +93,15 @@ def sales():
 
         print(browser.title)
 
-        #wait.until(lambda browser_find: browser.find_element_by_id("signInSubmit"))
+        wait.until(lambda browser_find: browser.find_element_by_id("signInSubmit"))
         print("Found login page.")
         #wait.until(lambda browser_find: browser.find_element_by_id("ap_email"))
+        print("Finding ap_email")
         username = browser.find_element_by_id("ap_email")
         password = browser.find_element_by_id("ap_password")
         auth1 = os.environ["AZN_AUTH1"]
         auth2 = os.environ["AZN_AUTH2"]
-        print(auth1)
-        print(auth2)
+
         username.send_keys(auth1)
         time.wait(1)
         password.send_keys(auth2)
