@@ -74,7 +74,7 @@ def sales():
         browser.get(report_url)
         print("Supposedly navigated...")
         print(browser.title)
-        wait.until(lambda browser_find: int(browser.find_element_by_id("summaryOPS")) > 0)
+        wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
         print("Found summaryOPS element.")
         summary_val = int(browser.find_element_by_id("summaryOPS").text)
         print("Value was: {n}".format(n=summary_val))
@@ -93,7 +93,7 @@ def sales():
         #
         resp["message"] = summary_val
         print("Trying to return message.")
-        return Response(resp)
+        return Response(json.dumps(resp))
 
     except TimeoutException as te:
         # png = browser.get_screenshot_as_png()
