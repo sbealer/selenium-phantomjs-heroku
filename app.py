@@ -88,13 +88,11 @@ def sales():
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
 
+        resp = {"color": "green","notify": "false","message_format": "text"}
 
-        summary_val = str({"color": "green",
-            "message": "Current Sales: {n}".format(n=summary_val),
-            "notify": "false",
-            "message_format": "text"})
-
-        return Response(summary_val)
+        resp["message"] = summary_val
+        print("Trying to return message.")
+        return Response(json.dumps(summary_val))
 
     except TimeoutException as te:
         # png = browser.get_screenshot_as_png()
@@ -103,8 +101,8 @@ def sales():
         return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        return Response(str({"color": "red",
-            "message": "Crap. An error occurred.",
+        return Response(json.dumps({"color": "red",
+            "message": "Crap. An error occurred. ",
             "notify": "false",
             "message_format": "text"}))
         # png = browser.get_screenshot_as_png()
