@@ -74,9 +74,8 @@ def sales():
         browser.get(report_url)
         print("Supposedly navigated...")
         print(browser.title)
-        wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
+        wait.until(lambda browser_find: int(browser.find_element_by_id("summaryOPS")) > 0)
         print("Found summaryOPS element.")
-        time.sleep(4)
         summary_val = int(browser.find_element_by_id("summaryOPS").text)
         print("Value was: {n}".format(n=summary_val))
         # if summary_val == 0:
