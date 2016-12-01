@@ -126,8 +126,9 @@ def sales():
         #return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        png = browser.get_screenshot_as_png()
-        return Response(png, mimetype="image/png")
+        return Response(browser.page_source)
+        # png = browser.get_screenshot_as_png()
+        # return Response(png, mimetype="image/png")
 
     finally:
         browser.quit()
