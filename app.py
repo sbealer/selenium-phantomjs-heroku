@@ -75,9 +75,9 @@ def sales():
         print("Supposedly navigated...")
         print(browser.title)
         wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
-
+        print("Found summaryOPS element.")
         summary_val = int(browser.find_element_by_id("summaryOPS").text)
-
+        print("Value was: {n}".format(n=summary_val))
         if summary_val == 0:
             for retry in xrange(1, 5):
                 if summary_val != 0:
@@ -101,7 +101,7 @@ def sales():
         return Response("Couldn't find desired value in specified time limit.")
 
     except Exception as gen_err:
-        print(gen_err.message)
+        #print(gen_err.message)
         return Response(json.dumps({"color": "red",
             "message": "Crap. An error occurred. ",
             "notify": "false",
