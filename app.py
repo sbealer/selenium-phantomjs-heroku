@@ -20,7 +20,7 @@ app = Flask(__name__)
 def default():
     return Response("Nothing to see here.")
 
-@app.route("/sales", methods=['POST'])
+@app.route("/sales", methods=['GET','POST'])
 def sales():
 
     dcap = dict(DesiredCapabilities.PHANTOMJS)
