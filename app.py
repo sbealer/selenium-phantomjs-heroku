@@ -76,15 +76,15 @@ def sales():
         print(browser.title)
         wait.until(lambda browser_find: browser.find_element_by_id("summaryOPS"))
         print("Found summaryOPS element.")
-        summary_val = int(browser.find_element_by_id("summaryOPS").text)
+        summary_val = browser.find_element_by_id("summaryOPS").text
         print("Value was: {n}".format(n=summary_val))
-        # if summary_val == 0:
-        #     print("In loop")
-        #     for retry in range(1, 5):
-        #         if summary_val != 0:
-        #             break
-        #         time.sleep(2)
-        #         summary_val = int(browser.find_element_by_id("summaryOPS").text)
+        if summary_val == '0':
+            print("In loop")
+            for retry in range(1, 5):
+                if summary_val != '0':
+                    break
+                time.sleep(2)
+                summary_val = browser.find_element_by_id("summaryOPS").text
 
         if summary_val == 0:
             raise Exception("Could not get sales figures in time or sales were $0")
