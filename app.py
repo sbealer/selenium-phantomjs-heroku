@@ -16,7 +16,7 @@ debug=False
 #########################################
 
 hipchat_url = 'https://marketfleet.hipchat.com/v2/room/3345643/notification?auth_token=COcvKHKwMGYD509WhwesCqv9KjW5fHGDtDokP4vz'
-hipchat_url = 'https://build.hipchat.com/v2/room/2703095/notification?auth_token=6CtGAdfHLnOzfknWh3Os1T74aTc3mIqGusAbVBrL'
+hipchat_url_dev = 'https://build.hipchat.com/v2/room/2703095/notification?auth_token=6CtGAdfHLnOzfknWh3Os1T74aTc3mIqGusAbVBrL'
 
 good_note = {"color":"green","notify":'false',"message_format":"text"}
 bad_note = {'color': 'red', 'notify': 'false', 'message_format': 'text'}
@@ -40,6 +40,7 @@ def send_hipchat_note():
     print "sending data"
     sales_data = get_sales()
     requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
+    requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
 
 #######################################################################################################################
 
