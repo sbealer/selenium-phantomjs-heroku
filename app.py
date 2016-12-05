@@ -12,7 +12,7 @@ from selenium.common.exceptions import TimeoutException
 app = Flask(__name__)
 
 #########################################
-debug=False
+debug=True
 #########################################
 
 hipchat_url = 'https://marketfleet.hipchat.com/v2/room/3345643/notification?auth_token=COcvKHKwMGYD509WhwesCqv9KjW5fHGDtDokP4vz'
