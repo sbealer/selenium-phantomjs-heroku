@@ -118,14 +118,14 @@ def get_sales():
         return json.dumps(resp)
 
     except TimeoutException as te:
-
+        prnt("Couldn't find desired value in specified time limit.")
         return "Couldn't find desired value in specified time limit."
 
     except Exception as gen_err:
         prnt(gen_err.message)
         error_text = bad_note
         error_text["message"] = "An error occurred: {e}".format(e=gen_err.message)
-
+        prnt(json.dumps(error_text))
         return json.dumps(error_text)
 
         # png = browser.get_screenshot_as_png()
