@@ -40,7 +40,7 @@ def send_hipchat_note():
     print("sending data")
     sales_data = get_sales()
     requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
-    requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
+    #requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
 
 #######################################################################################################################
 
