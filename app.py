@@ -15,7 +15,8 @@ app = Flask(__name__)
 debug=True
 #########################################
 
-hipchat_url = 'https://marketfleet.hipchat.com/v2/room/3345643/notification?auth_token=COcvKHKwMGYD509WhwesCqv9KjW5fHGDtDokP4vz'
+#hipchat_url = 'https://marketfleet.hipchat.com/v2/room/3345643/notification?auth_token=COcvKHKwMGYD509WhwesCqv9KjW5fHGDtDokP4vz'
+hipchat_url = 'https://marketfleet.hipchat.com/v2/room/666414/notification?auth_token=tKJOowVhfNg6r9NN560G3EDBnWtpQtj2lboBWIRi'
 hipchat_url_dev = 'https://build.hipchat.com/v2/room/2703095/notification?auth_token=6CtGAdfHLnOzfknWh3Os1T74aTc3mIqGusAbVBrL'
 
 good_note = {"color":"green","notify":'false',"message_format":"text"}
@@ -23,7 +24,7 @@ bad_note = {'color': 'red', 'notify': 'false', 'message_format': 'text'}
 
 def prnt(text,always_print=False):
     if debug or always_print:
-        prnt(text)
+        print(text)
 
 @app.route("/")
 def default():
