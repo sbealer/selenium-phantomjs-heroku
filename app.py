@@ -37,16 +37,17 @@ def sales():
 
 #######################################################################################################################
 
-@app.route("/send_notice/<who>", methods=['GET','POST'])
+@app.route("/send_notice/<who>", methods=['GET'])
 def send_hipchat_note(who):
     print("sending data")
     sales_data = get_sales()
-    if who =='dev':
-        requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
-        return Response("Success")
-    elif who=='prd':
-        requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
-        return Response("Success")
+
+    if who == 'dev':
+        req = requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
+        return "Success"
+    elif who == 'prd':
+        req = requests.post(hipchat_url, data=sales_data, headers={"Content-Type": "application/json"})
+        return "Success"
 
     else:
         return Response("No target.")
