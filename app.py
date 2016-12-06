@@ -16,7 +16,7 @@ debug=True
 #########################################
 
 #hipchat_url = 'https://marketfleet.hipchat.com/v2/room/3345643/notification?auth_token=COcvKHKwMGYD509WhwesCqv9KjW5fHGDtDokP4vz'
-#hipchat_url = 'https://marketfleet.hipchat.com/v2/room/666414/notification?auth_token=tKJOowVhfNg6r9NN560G3EDBnWtpQtj2lboBWIRi'
+hipchat_url = 'https://marketfleet.hipchat.com/v2/room/666414/notification?auth_token=tKJOowVhfNg6r9NN560G3EDBnWtpQtj2lboBWIRi'
 hipchat_url_dev = 'https://build.hipchat.com/v2/room/2703095/notification?auth_token=6CtGAdfHLnOzfknWh3Os1T74aTc3mIqGusAbVBrL'
 
 good_note = {"color":"green","notify":'false',"message_format":"text"}
@@ -37,12 +37,15 @@ def sales():
 
 #######################################################################################################################
 
-@app.route("/send_notice", methods=['GET','POST'])
-def send_hipchat_note():
+@app.route("/send_notice/<who>", methods=['GET','POST'])
+def send_hipchat_note(who):
     print("sending data")
     sales_data = get_sales()
-    #requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
-    requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
+    if who =='dev':
+        requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
+    else:
+        requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
+
 
 #######################################################################################################################
 
