@@ -41,16 +41,18 @@ def sales():
 def send_hipchat_note(who):
     print("sending data")
     sales_data = get_sales()
+    try:
+        if who == 'dev':
+            req = requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
+            return "Success"
+        elif who == 'prd':
+            req = requests.post(hipchat_url, data=sales_data, headers={"Content-Type": "application/json"})
+            return "Success"
 
-    if who == 'dev':
-        req = requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
-        return "Success"
-    elif who == 'prd':
-        req = requests.post(hipchat_url, data=sales_data, headers={"Content-Type": "application/json"})
-        return "Success"
-
-    else:
-        return Response("No target.")
+        else:
+            return Response("No target.")
+    except Exception as e:
+        return str(e.message)
 
 
 #######################################################################################################################
@@ -91,13 +93,13 @@ def get_sales():
         prnt("Found both fields. Gathering credentials.")
         auth1 = os.environ["AZN_AUTH1"]
         auth2 = os.environ["AZN_AUTH2"]
-        prnt("Got Credentials. Attempting to send keys.")
+        #prnt("Got Credentials. Attempting to send keys.")
         prnt(auth1)
         username.send_keys(auth1)
-        prnt("username entered.")
+        #prnt("username entered.")
         password.send_keys(auth2)
         time.sleep(1)
-        prnt("password entered.")
+        #prnt("password entered.")
         prnt("Logging in.")
         browser.find_element_by_id("signInSubmit").submit()
         prnt("Logged in.")
