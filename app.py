@@ -43,10 +43,16 @@ def send_hipchat_note(who):
     sales_data = get_sales()
     if who =='dev':
         requests.post(hipchat_url_dev, data=sales_data, headers={"Content-Type": "application/json"})
-    else:
+        return Response("Success")
+    elif who=='prd':
         requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
+        return Response("Success")
 
-    return Response("Success")
+    else:
+        return Response("No target.")
+
+
+
 
 #######################################################################################################################
 
