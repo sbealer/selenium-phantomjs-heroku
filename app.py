@@ -46,7 +46,7 @@ def send_hipchat_note(who):
     else:
         requests.post(hipchat_url, data=sales_data,headers={"Content-Type":"application/json"})
 
-
+    return Response("Success")
 #######################################################################################################################
 
 def get_sales():
