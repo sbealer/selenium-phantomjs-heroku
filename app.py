@@ -37,7 +37,7 @@ def sales():
 
 #######################################################################################################################
 
-@app.route("/send_notice/<who>", methods=['GET'])
+#@app.route("/send_notice/<who>", methods=['GET'])
 def send_hipchat_note(who):
     print("sending data")
     sales_data = get_sales()
